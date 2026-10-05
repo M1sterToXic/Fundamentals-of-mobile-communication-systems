@@ -12,7 +12,7 @@ disp("2 пункт: делим максимально высокую кампо�
 disp("3 пункт: минимальная необходимая частота дискретизации полученного сигнала = 40Гц");
 %% 4
 y = @(t) cos(2*pi*f*t) + sin(10*pi*f*t) + sin(6*t);
-f = 80;
+f = 41; 
 t = 0:1/f:1;
 masx = t;
 masy = y(t);
@@ -20,11 +20,11 @@ plot(masx, masy, "r*-");
 grid on;
 legend("Оригинал", "Восстановленный");
 %% 5
-f = 80;
+f = 41;
 t = 0:1/f:1;
 masy = y(t);
 N = length(masy);
-Y = fft(masy); %Преобразование Фурье
+Y = my_dft(masy); 
 mag = abs(Y) / N;
 mag = mag(1:floor(N/2)+1);
 mag(2:end-1) = 2 * mag(2:end-1);
@@ -42,7 +42,7 @@ disp("Пункт 5: " + info.bytes + "Б");
 %% 6 
 t = 0:0.001:1;
 y = cos(8*pi*t) + sin(40*pi*t) + sin(6*t);
-f = 80;
+f = 41;
 t_discret = 0:1/f:1;
 y_discret = cos(8*pi*t_discret) + sin(40*pi*t_discret) + sin(6*t_discret);
 
@@ -56,11 +56,11 @@ xlabel("Время, с");
 ylabel("Амплитуда");
 legend("Оригинал", "Восстановленный");
 %% 7 
-f = 320;
+f = 160;
 t = 0:1/f:1;
 masy = cos(8*pi*t) + sin(40*pi*t) + sin(6*t);
 N = length(masy);
-Y = fft(masy); %Преобразование Фурье
+Y = my_dft(masy); 
 mag = abs(Y) / N;
 mag = mag(1:floor(N/2)+1);
 mag(2:end-1) = 2 * mag(2:end-1);
@@ -68,7 +68,7 @@ f_axis = f * (0:floor(N/2)) / N;
 
 figure;
 plot(f_axis,mag, "b");
-title("Амплитудный спектр (f = 320 Гц)");
+title("Амплитудный спектр (f = 160 Гц)");
 grid on;
 xlabel("Частота Гц");
 ylabel("Амплитуда");
@@ -83,7 +83,7 @@ plot(t_ideal, y_ideal, "g");
 hold on;
 plot(t, masy, "r*-");
 grid on;
-title("Сравнение сигналов (f = 320 Гц)");
+title("Сравнение сигналов (f = 160 Гц)");
 xlabel("Время, с");
 ylabel("Амплитуда");
 legend("Оригинал", "Восстановленный");
@@ -161,12 +161,12 @@ for i = 1:length(bits_array)
     if b == 3
         N = length(y);
 
-        Y_orig = fft(y);
+        Y_orig = my_dft(y);
         mag_orig = abs(Y_orig)/N; 
         mag_orig = mag_orig(1:floor(N/2)+1); 
         mag_orig(2:end-1) = 2*mag_orig(2:end-1);
 
-        Y_quant = fft(y_quant);
+        Y_quant = my_dft(y_quant);
         mag_quant = abs(Y_quant)/N; 
         mag_quant = mag_quant(1:floor(N/2)+1); 
         mag_quant(2:end-1) = 2*mag_quant(2:end-1);
@@ -183,5 +183,15 @@ for i = 1:length(bits_array)
         plot(f_axis, mag_quant, 'r'); 
         title('Спектр квантованного сигнала (3 бита)'); 
         xlabel('Частота, Гц'); ylabel('Амплитуда'); grid on;
+    end
+end
+
+%% Локальные функции
+function X = my_dft(x)
+    N = length(x);
+    X = zeros(size(x));
+    n = 0:N-1;
+    for k = 0:N-1
+        X(k+1) = sum(x .* exp(-1j * 2 * pi * k * n / N));
     end
 end
