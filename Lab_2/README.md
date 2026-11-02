@@ -35,7 +35,7 @@ RxSensBS = NF_BS + ThermalNoise + SINR_UL;
 MAPL_UL = P_tx_UE - FeederLoss + antenna_gain_BS + GainMIMO - RxSensBS - M_interf - M_penetration;
 fprintf('Пункт 1: MAPL_UL = %.2f дБ\n', MAPL_UL);
 ```
-![alt text](image.png)
+![alt text](image/image.png)
 
 2) Выполнил расчет бюджета нисходящего канала, используя входные данные и определил уровень максимально допустимых потерь сигнала MAPL_DL.
 ```
@@ -46,7 +46,7 @@ RxSensUE = ThermalNoise_DL + NF_UE + SINR_DL;
 MAPL_DL = P_tx_BS - FeederLoss + antenna_gain_BS + GainMIMO - RxSensUE - M_interf - M_penetration;
 fprintf("Пункт 2: MAPL_DL = %.2f дБ\n", MAPL_DL);
 ```
-![alt text](image-1.png)
+![alt text](image/image-1.png)
 
 3) Построил зависимость величины входных потерь радиосигнала от расстояния между приемником и передатчиком по всем трем описанным в п.2.2 моделям. Выбрал нужную модель для заданных условий. 
 ```
@@ -124,10 +124,10 @@ ylabel('Потери PL, дБ');
 xlim([0, 5000]);
 ylim([60, 180]);
 ```
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
-![alt text](image-5.png)
+![alt text](image/image-2.png)
+![alt text](image/image-3.png)
+![alt text](image/image-4.png)
+![alt text](image/image-5.png)
 
 4) Определил радиус базовой станции в восходящем и нисходящем каналах. По меньшему из полученных значений рассчитал площадь одной базовой станции и, исходя из заданной площади, вычислил требуемое количество базовых станций (сайтов), необходимое для обеспечения непрерывного покрытия на этой территории. 
 ```
@@ -145,7 +145,7 @@ fprintf('Расчетный радиус соты: %.3f км\n', R_macro);
 fprintf('Площадь одной БС: %.3f кв.км\n', S_site_macro);
 fprintf('Необходимое количество БС на 100 кв.км: %d шт.\n\n', N_macro);
 ```
-![alt text](image-6.png)
+![alt text](image/image-6.png)
 ## Выводы
 1. В ходе выполнения лабораторной работы были рассчитаны бюджеты
 восходящего (UL) и нисходящего (DL) каналов связи для сети LTE на несу
